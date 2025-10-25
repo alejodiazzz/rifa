@@ -1181,7 +1181,7 @@
             // Crear un contenedor para el lado izquierdo (header, premios, explicación)
             const leftContent = document.createElement('div');
             leftContent.id = 'left-content-download';
-            leftContent.style.cssText = 'display: flex; flex-direction: column; width: 40%; padding: 20px;';
+            leftContent.style.cssText = 'display: flex; flex-direction: column; width: 50%; padding: 20px;';
             
             // Mover elementos al contenedor izquierdo
             leftContent.appendChild(header);
@@ -1191,7 +1191,7 @@
             // Crear un contenedor para el lado derecho (talonario)
             const rightContent = document.createElement('div');
             rightContent.id = 'right-content-download';
-            rightContent.style.cssText = 'width: 60%; padding: 20px;';
+            rightContent.style.cssText = 'width: 50%; padding: 20px;';
             rightContent.appendChild(talonario);
 
             // Limpiar captureArea y añadir los nuevos contenedores
@@ -1199,92 +1199,92 @@
             captureArea.appendChild(leftContent);
             captureArea.appendChild(rightContent);
 
-            // Aplicar estilos para formato 9:16 optimizado para historias
-            captureArea.style.cssText = 'width: 1080px; max-width: 1080px; margin: 0 auto; display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;';
+            // Aplicar estilos para formato 16:9 optimizado para redes sociales
+            captureArea.style.cssText = 'width: 1920px; max-width: 1920px; margin: 0 auto; display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;';
             
             // Ajustar header - texto más grande y visible
-            header.style.padding = '1rem 0.5rem';
-            header.querySelector('h1').style.fontSize = '2.5rem';
+            header.style.padding = '2rem 1rem';
+            header.querySelector('h1').style.fontSize = '3.5rem';
             header.querySelector('h1').style.fontWeight = '700';
-            header.querySelector('h1').style.letterSpacing = '3px';
+            header.querySelector('h1').style.letterSpacing = '5px';
             const headerP = header.querySelector('p');
-            headerP.style.fontSize = '1.2rem';
-            headerP.style.fontWeight = '600';
-            headerP.style.marginTop = '0.5rem';
+            headerP.style.fontSize = '1.8rem';
+            headerP.style.fontWeight = '700';
+            headerP.style.marginTop = '1rem';
             const priceTag = header.querySelector('.price-tag');
-            priceTag.style.fontSize = '1.5rem';
-            priceTag.style.padding = '0.5rem 1.5rem';
-            priceTag.style.fontWeight = '600';
+            priceTag.style.fontSize = '2rem';
+            priceTag.style.padding = '1rem 2.5rem';
+            priceTag.style.fontWeight = '700';
             
             // Ajustar sección de premios - más prominente
-            prizesSection.style.cssText = originalPrizesStyle + 'padding: 1.5rem 1rem; margin: 1rem auto;';
+            prizesSection.style.cssText = originalPrizesStyle + 'padding: 2rem 2rem; margin: 1.5rem auto;';
             const prizesH2 = prizesSection.querySelector('h2');
-            prizesH2.style.fontSize = '2rem';
-            prizesH2.style.marginBottom = '1rem';
+            prizesH2.style.fontSize = '2.5rem';
+            prizesH2.style.marginBottom = '1.5rem';
             prizesH2.style.fontWeight = '700';
             const prizesLis = prizesSection.querySelectorAll('li');
             prizesLis.forEach(li => {
-                li.style.fontSize = '1.2rem';
-                li.style.padding = '0.8rem 1.5rem';
-                li.style.marginBottom = '0.8rem';
-                li.style.fontWeight = '600';
+                li.style.fontSize = '1.8rem';
+                li.style.padding = '1rem 2rem';
+                li.style.marginBottom = '1rem';
+                li.style.fontWeight = '700';
             });
 
             // Ajustar explicación - más legible
-            explanation.style.cssText = originalExplanationStyle + 'padding: 1.5rem 1rem; margin: 1rem auto;';
+            explanation.style.cssText = originalExplanationStyle + 'padding: 2rem 2rem; margin: 1.5rem auto;';
             const explH2 = explanation.querySelector('h2');
-            explH2.style.fontSize = '1.8rem';
+            explH2.style.fontSize = '2.2rem';
             explH2.style.fontWeight = '700';
-            explH2.style.marginBottom = '0.8rem';
+            explH2.style.marginBottom = '1rem';
             const explP = explanation.querySelector('p');
-            explP.style.fontSize = '1rem';
-            explP.style.fontWeight = '500';
-            explP.style.lineHeight = '1.4';
+            explP.style.fontSize = '1.3rem';
+            explP.style.fontWeight = '600';
+            explP.style.lineHeight = '1.6';
             const lotteryNumber = explanation.querySelector('.lottery-number');
-            lotteryNumber.style.fontSize = '3rem';
-            lotteryNumber.style.padding = '1rem';
-            lotteryNumber.style.fontWeight = '600';
+            lotteryNumber.style.fontSize = '4rem';
+            lotteryNumber.style.padding = '1.5rem';
+            lotteryNumber.style.fontWeight = '700';
             const winnerLines = explanation.querySelectorAll('.winner-line');
             winnerLines.forEach(line => {
-                line.style.fontSize = '1.1rem';
-                line.style.marginBottom = '0.8rem';
+                line.style.fontSize = '1.4rem';
+                line.style.marginBottom = '1rem';
                 const strong = line.querySelector('strong');
-                if (strong) strong.style.fontSize = '1.2rem';
+                if (strong) strong.style.fontSize = '1.5rem';
                 const winnerNum = line.querySelector('.winner-number');
                 if (winnerNum) {
-                    winnerNum.style.fontSize = '1.3rem';
-                    winnerNum.style.padding = '0.4rem 0.8rem';
-                    winnerNum.style.fontWeight = '600';
+                    winnerNum.style.fontSize = '1.6rem';
+                    winnerNum.style.padding = '0.6rem 1.2rem';
+                    winnerNum.style.fontWeight = '700';
                 }
             });
 
             // Ajustar talonario
-            talonario.style.cssText = originalTalonarioStyle + 'padding: 1.5rem 1rem; margin: 0;';
+            talonario.style.cssText = originalTalonarioStyle + 'padding: 2rem 2rem; margin: 0;';
             
             // Ajustar estadísticas - más grandes
             const stats = talonario.querySelector('.stats');
-            stats.style.marginBottom = '1.5rem';
+            stats.style.marginBottom = '2rem';
             const statCards = stats.querySelectorAll('.stat-card');
             statCards.forEach(card => {
-                card.style.padding = '1rem';
-                card.style.minWidth = '120px';
+                card.style.padding = '1.5rem';
+                card.style.minWidth = '150px';
                 const h3 = card.querySelector('h3');
-                h3.style.fontSize = '2.5rem';
+                h3.style.fontSize = '3rem';
                 h3.style.fontWeight = '700';
                 const p = card.querySelector('p');
-                p.style.fontSize = '1rem';
-                p.style.fontWeight = '600';
+                p.style.fontSize = '1.2rem';
+                p.style.fontWeight = '700';
             });
 
             // Ajustar grid de tickets - más visible
             legend.style.display = 'none';
-            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(60px, 1fr))';
-            grid.style.gap = '0.5rem';
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(95px, 1fr))';
+            grid.style.gap = '0.8rem';
             const ticketsEl = grid.querySelectorAll('.ticket');
             ticketsEl.forEach(ticket => {
-                ticket.style.fontSize = '1.2rem';
-                ticket.style.padding = '0.8rem 0.2rem';
-                ticket.style.fontWeight = '600';
+                ticket.style.fontSize = '1.8rem';
+                ticket.style.padding = '1.3rem 0.4rem';
+                ticket.style.fontWeight = '700';
             });
 
             // Ajustar info text - mucho más grande
@@ -1294,21 +1294,21 @@
             captureArea.style.display = 'flex'; // Asegurar que captureArea es flex para el layout
 
             setTimeout(() => {
-                // Capturar en formato 9:16 (1080x1920) con escala alta para mejor calidad
+                // Capturar en formato 16:9 (1920x1080) con escala alta para mejor calidad
                 html2canvas(captureArea, {
                     scale: 2.5,
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: '#0a0a0a',
                     logging: false,
-                    width: 1080,
-                    windowWidth: 1080,
-                    windowHeight: 1920
+                    width: 1920,
+                    windowWidth: 1920,
+                    windowHeight: 1080
                 }).then(canvas => {
-                    // Crear canvas en proporción 9:16
+                    // Crear canvas en proporción 16:9
                     const finalCanvas = document.createElement('canvas');
-                    finalCanvas.width = 1080 * 2.5; // scale: 2.5 para alta calidad
-                    finalCanvas.height = 1920 * 2.5;
+                    finalCanvas.width = 1920 * 2.5; // scale: 2.5 para alta calidad
+                    finalCanvas.height = 1080 * 2.5;
                     const ctx = finalCanvas.getContext('2d');
                     
                     // Rellenar fondo
@@ -1323,7 +1323,7 @@
                     ctx.drawImage(canvas, 0, 0, finalCanvas.width, finalCanvas.height);
                     
                     const link = document.createElement('a');
-                    link.download = 'poster-rifa-9x16.png';
+                    link.download = 'poster-rifa-16x9.png';
                     link.href = finalCanvas.toDataURL('image/png', 0.95);
                     link.click();
                     
