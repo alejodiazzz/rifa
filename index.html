@@ -920,16 +920,32 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+        import { getFirestore, collection, doc, getDocs, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDdQlHmnKmc4DI54JBY2WTV5Hr5udGzomM",
+            authDomain: "rifas-d45b9.firebaseapp.com",
+            projectId: "rifas-d45b9",
+            storageBucket: "rifas-d45b9.appspot.com",
+            messagingSenderId: "56517378127",
+            appId: "1:56517378127:web:de508e329602e2c5d52a3a",
+            measurementId: "G-HP008E5L2D"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         let tickets = [];
         let currentTicketIndex = null;
         let selectedTickets = new Set();
-        let uploadedImageData = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             loadTickets();
-            renderTalonario();
-            renderLista();
             showSection('talonario');
             setupGraphicInteractivity();
         });
@@ -977,21 +993,32 @@
             winner3.addEventListener('mouseout', resetStyles);
         }
 
-        function loadTickets() {
-            const savedTickets = sessionStorage.getItem('raffleTickets');
-            if (savedTickets) {
-                tickets = JSON.parse(savedTickets);
-            } else {
-                tickets = Array.from({ length: 100 }, (_, i) => ({
-                    number: i.toString().padStart(2, '0'),
-                    status: 'disponible',
-                    owner: ''
-                }));
-            }
+        async function loadTickets() {
+            const ticketsCol = collection(db, 'tickets');
+            onSnapshot(ticketsCol, (snapshot) => {
+                if (snapshot.empty) {
+                    console.log("No tickets found, creating initial data...");
+                    const initialTickets = Array.from({ length: 100 }, (_, i) => ({
+                        number: i.toString().padStart(2, '0'),
+                        status: 'disponible',
+                        owner: ''
+                    }));
+                    initialTickets.forEach(ticket => {
+                        setDoc(doc(db, "tickets", ticket.number), ticket);
+                    });
+                    tickets = initialTickets;
+                } else {
+                    const serverTickets = snapshot.docs.map(doc => doc.data());
+                    serverTickets.sort((a, b) => a.number.localeCompare(b.number));
+                    tickets = serverTickets;
+                }
+                renderTalonario();
+                renderLista();
+            });
         }
 
-        function saveData() {
-            sessionStorage.setItem('raffleTickets', JSON.stringify(tickets));
+        async function saveData(ticketData) {
+            await setDoc(doc(db, "tickets", ticketData.number), ticketData);
         }
 
         function renderTalonario() {
@@ -1031,13 +1058,12 @@
             }
 
             selectedTickets.forEach(index => {
-                tickets[index].status = newStatus;
+                const ticket = tickets[index];
+                ticket.status = newStatus;
+                saveData(ticket);
             });
 
             selectedTickets.clear();
-            saveData();
-            renderTalonario();
-            renderLista();
         }
 
         function updateStats() {
@@ -1071,7 +1097,7 @@
                 tr.innerHTML = `
                     <td><strong>${ticket.number}</strong></td>
                     <td><span class="ticket ${ticket.status}" style="padding: 0.5rem 1rem; display: inline-block; font-size: 0.9rem;">${statusText[ticket.status]}</span></td>
-                    <td><input type="text" placeholder="Nombre del participante" value="${ticket.owner}" oninput="updateOwner(${index}, this.value)"></td>
+                    <td><input type="text" placeholder="Nombre del participante" value="${ticket.owner}" onblur="updateOwner(${index}, this.value)"></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1079,7 +1105,7 @@
 
         function updateOwner(index, owner) {
             tickets[index].owner = owner;
-            saveData();
+            saveData(tickets[index]);
         }
 
         function openModal(index) {
@@ -1104,12 +1130,11 @@
             const owner = document.getElementById('modal-owner-input').value;
             const status = document.getElementById('modal-status-select').value;
             
-            tickets[currentTicketIndex].owner = owner;
-            tickets[currentTicketIndex].status = status;
+            const ticket = tickets[currentTicketIndex];
+            ticket.owner = owner;
+            ticket.status = status;
             
-            saveData();
-            renderTalonario();
-            renderLista();
+            saveData(ticket);
             closeModal();
         }
 
@@ -1234,8 +1259,8 @@
             legend.style.display = 'none';
             grid.style.gridTemplateColumns = 'repeat(10, 1fr)';
             grid.style.gap = '0.8rem';
-            const tickets = grid.querySelectorAll('.ticket');
-            tickets.forEach(ticket => {
+            const ticketsEl = grid.querySelectorAll('.ticket');
+            ticketsEl.forEach(ticket => {
                 ticket.style.fontSize = '1.8rem';
                 ticket.style.padding = '1.3rem 0.4rem';
                 ticket.style.fontWeight = '700';
@@ -1346,7 +1371,7 @@
                     });
                     grid.style.cssText = originalGridStyle;
                     grid.style.gap = '';
-                    tickets.forEach(ticket => {
+                    ticketsEl.forEach(ticket => {
                         ticket.style.fontSize = '';
                         ticket.style.padding = '';
                         ticket.style.fontWeight = '';
@@ -1401,6 +1426,14 @@
                 });
             }, 150);
         }
+
+        window.downloadPoster = downloadPoster;
+        window.changeSelectedStatus = changeSelectedStatus;
+        window.updateOwner = updateOwner;
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.saveTicket = saveTicket;
+        window.showSection = showSection;
     </script>
 </body>
 </html>
