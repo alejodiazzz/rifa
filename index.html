@@ -1167,125 +1167,105 @@
             const talonario = document.getElementById('talonario');
             const legend = document.querySelector('.legend');
 
-            // Store original parent and nextSibling for restoration
-            const originalHeaderParent = header.parentNode;
-            const originalHeaderNextSibling = header.nextSibling;
-            const originalPrizesParent = prizesSection.parentNode;
-            const originalPrizesNextSibling = prizesSection.nextSibling;
-            const originalExplanationParent = explanation.parentNode;
-            const originalExplanationNextSibling = explanation.nextSibling;
-            const originalTalonarioParent = talonario.parentNode;
-            const originalTalonarioNextSibling = talonario.nextSibling;
-            const originalLegendParent = legend.parentNode;
-            const originalLegendNextSibling = legend.nextSibling;
+            // Store original parents and siblings for restoration
+            const elementsToMove = [
+                { el: header, parent: header.parentNode, sibling: header.nextSibling },
+                { el: prizesSection, parent: prizesSection.parentNode, sibling: prizesSection.nextSibling },
+                { el: explanation, parent: explanation.parentNode, sibling: explanation.nextSibling },
+                { el: talonario, parent: talonario.parentNode, sibling: talonario.nextSibling },
+                { el: legend, parent: legend.parentNode, sibling: legend.nextSibling }
+            ];
 
-            // --- CAPTURA DE IMAGEN DE INFORMACIÓN (tamaño adaptable) ---
-            const infoCaptureArea = document.createElement('div');
-            infoCaptureArea.style.cssText = 'overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%); display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 20px; box-sizing: border-box;';
-            
-            // Mover elementos al área de captura de información
-            infoCaptureArea.appendChild(header);
-            infoCaptureArea.appendChild(prizesSection);
-            infoCaptureArea.appendChild(explanation);
-            
-            document.body.appendChild(infoCaptureArea); // Añadir al body para que html2canvas pueda capturarlo
+            // --- Create 9:16 Poster ---
+            const poster = document.createElement('div');
+            const posterWidth = 1080;
+            const posterHeight = 1920;
+            poster.style.cssText = `
+                width: ${posterWidth}px;
+                height: ${posterHeight}px;
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between; /* Distribute space */
+                padding: 60px; /* Generous margins */
+                box-sizing: border-box;
+                position: absolute;
+                left: -9999px; /* Hide off-screen */
+                top: 0;
+            `;
 
-            html2canvas(infoCaptureArea, {
-                scale: 2.5,
+            const infoContainer = document.createElement('div');
+            infoContainer.style.cssText = 'display: flex; flex-direction: column; align-items: center; width: 100%;';
+            
+            const gridContainer = document.createElement('div');
+            gridContainer.style.cssText = `
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                flex-shrink: 0; /* Prevent grid from shrinking */
+            `;
+
+            // Clone and modify grid for a perfect 10x10 layout
+            const clonedTalonario = talonario.cloneNode(true);
+            const grid = clonedTalonario.querySelector('.grid');
+            grid.style.gridTemplateColumns = 'repeat(10, 1fr)';
+            grid.style.gridTemplateRows = 'repeat(10, 1fr)';
+            grid.style.gap = '12px';
+            grid.style.width = '900px'; // Fixed width for squareness
+            grid.style.height = '900px'; // Fixed height for squareness
+            grid.style.margin = '0 auto'; // Center it
+            
+            // Adjust ticket styles for the square grid
+            const ticketsInGrid = clonedTalonario.querySelectorAll('.ticket');
+            ticketsInGrid.forEach(ticket => {
+                ticket.style.padding = '0';
+                ticket.style.display = 'flex';
+                ticket.style.alignItems = 'center';
+                ticket.style.justifyContent = 'center';
+                ticket.style.fontSize = '2rem';
+            });
+
+            // Move elements to the new containers
+            infoContainer.appendChild(header);
+            infoContainer.appendChild(prizesSection);
+            infoContainer.appendChild(explanation);
+            
+            gridContainer.appendChild(clonedTalonario);
+            gridContainer.appendChild(legend);
+
+            poster.appendChild(infoContainer);
+            poster.appendChild(gridContainer);
+
+            document.body.appendChild(poster);
+
+            html2canvas(poster, {
+                scale: 1, // Use native resolution
                 useCORS: true,
                 allowTaint: true,
-                backgroundColor: '#0a0a0a',
+                backgroundColor: null, // Use poster's background
+                width: posterWidth,
+                height: posterHeight,
                 logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'poster-rifa-informacion.png';
-                link.href = canvas.toDataURL('image/png', 0.95);
+                link.download = 'poster-rifa-9x16.png';
+                link.href = canvas.toDataURL('image/png', 0.98);
                 link.click();
-                infoCaptureArea.remove(); // Eliminar el área temporal
-            }).then(() => {
-                // --- CAPTURA DE IMAGEN DE CUADRÍCULA (1080x1080) ---
-                const gridCaptureArea = document.createElement('div');
-                gridCaptureArea.style.cssText = 'width: 1080px; height: 1080px; overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;';
-                
-                // Mover elementos al área de captura de cuadrícula
-                gridCaptureArea.appendChild(talonario);
-                gridCaptureArea.appendChild(legend);
-
-                document.body.appendChild(gridCaptureArea);
-
-                html2canvas(gridCaptureArea, {
-                    scale: 2.5,
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: '#0a0a0a',
-                    logging: false,
-                    width: 1080,
-                    height: 1080
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'poster-rifa-cuadricula-1080x1080.png';
-                    link.href = canvas.toDataURL('image/png', 0.95);
-                    link.click();
-                    gridCaptureArea.remove(); // Eliminar el área temporal
-                }).finally(() => {
-                    // Restaurar el DOM original
-                    if (originalHeaderNextSibling) {
-                        originalHeaderParent.insertBefore(header, originalHeaderNextSibling);
-                    } else {
-                        originalHeaderParent.appendChild(header);
-                    }
-                    if (originalPrizesNextSibling) {
-                        originalPrizesParent.insertBefore(prizesSection, originalPrizesNextSibling);
-                    } else {
-                        originalPrizesParent.appendChild(prizesSection);
-                    }
-                    if (originalExplanationNextSibling) {
-                        originalExplanationParent.insertBefore(explanation, originalExplanationNextSibling);
-                    } else {
-                        originalExplanationParent.appendChild(explanation);
-                    }
-                    if (originalTalonarioNextSibling) {
-                        originalTalonarioParent.insertBefore(talonario, originalTalonarioNextSibling);
-                    } else {
-                        originalTalonarioParent.appendChild(talonario);
-                    }
-                    if (originalLegendNextSibling) {
-                        originalLegendParent.insertBefore(legend, originalLegendNextSibling);
-                    } else {
-                        originalLegendParent.appendChild(legend);
-                    }
-
-                    downloadBtn.disabled = false;
-                    downloadBtn.textContent = 'Descargar Póster';
-                });
             }).catch(err => {
                 console.error("Error al generar la imagen:", err);
                 alert("Error al generar la imagen. Intenta de nuevo.");
-                
-                // Restaurar el DOM original en caso de error
-                if (originalHeaderNextSibling) {
-                    originalHeaderParent.insertBefore(header, originalHeaderNextSibling);
-                } else {
-                    originalHeaderParent.appendChild(header);
-                }
-                if (originalPrizesNextSibling) {
-                    originalPrizesParent.insertBefore(prizesSection, originalPrizesNextSibling);
-                } else {
-                    originalPrizesParent.appendChild(prizesSection);
-                }
-                if (originalExplanationNextSibling) {
-                    originalExplanationParent.insertBefore(explanation, originalExplanationNextSibling);
-                }
-                if (originalTalonarioNextSibling) {
-                    originalTalonarioParent.insertBefore(talonario, originalTalonarioNextSibling);
-                }
-                if (originalLegendNextSibling) {
-                    originalLegendParent.insertBefore(legend, originalLegendNextSibling);
-                }
-                else {
-                    originalLegendParent.appendChild(legend);
-                }
-
+            }).finally(() => {
+                // Restore original DOM
+                elementsToMove.forEach(({ el, parent, sibling }) => {
+                    if (sibling) {
+                        parent.insertBefore(el, sibling);
+                    } else {
+                        parent.appendChild(el);
+                    }
+                });
+                poster.remove();
                 downloadBtn.disabled = false;
                 downloadBtn.textContent = 'Descargar Póster';
             });
