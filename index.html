@@ -1153,8 +1153,8 @@
             const originalTalonarioStyle = talonario.style.cssText;
             const originalCaptureStyle = captureArea.style.cssText;
 
-            // Aplicar estilos para formato 16:9 optimizado para redes sociales
-            captureArea.style.cssText = 'width: 1920px; max-width: 1920px; margin: 0 auto; display: block;';
+            // Aplicar estilos para formato 9:16 optimizado para historias
+            captureArea.style.cssText = 'width: 1080px; max-width: 1080px; margin: 0 auto; display: block;';
             
             // Ajustar header - texto más grande y visible
             header.style.padding = '2rem 1rem';
@@ -1252,21 +1252,21 @@
             captureArea.style.display = 'block';
 
             setTimeout(() => {
-                // Capturar en formato 16:9 (1920x1080) con escala alta para mejor calidad
+                // Capturar en formato 9:16 (1080x1920) con escala alta para mejor calidad
                 html2canvas(captureArea, {
                     scale: 2.5,
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: '#0a0a0a',
                     logging: false,
-                    width: 1920,
-                    windowWidth: 1920,
-                    windowHeight: 1080
+                    width: 1080,
+                    windowWidth: 1080,
+                    windowHeight: 1920
                 }).then(canvas => {
-                    // Crear canvas en proporción 16:9
+                    // Crear canvas en proporción 9:16
                     const finalCanvas = document.createElement('canvas');
-                    finalCanvas.width = 1920 * 2.5; // scale: 2.5 para alta calidad
-                    finalCanvas.height = 1080 * 2.5;
+                    finalCanvas.width = 1080 * 2.5; // scale: 2.5 para alta calidad
+                    finalCanvas.height = 1920 * 2.5;
                     const ctx = finalCanvas.getContext('2d');
                     
                     // Rellenar fondo
@@ -1286,7 +1286,7 @@
                     ctx.drawImage(canvas, x, y, canvas.width * scale, canvas.height * scale);
                     
                     const link = document.createElement('a');
-                    link.download = 'poster-rifa-16x9.png';
+                    link.download = 'poster-rifa-9x16.png';
                     link.href = finalCanvas.toDataURL('image/png', 0.95);
                     link.click();
                     
