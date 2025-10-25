@@ -1166,8 +1166,9 @@
             const explanation = captureArea.querySelector('.explanation');
             const talonario = document.getElementById('talonario');
             const legend = document.querySelector('.legend');
+            const grid = document.getElementById('ticket-grid');
 
-            // Store original parents and siblings for restoration
+            // Store original parents, siblings, and styles for restoration
             const elementsToMove = [
                 { el: header, parent: header.parentNode, sibling: header.nextSibling },
                 { el: prizesSection, parent: prizesSection.parentNode, sibling: prizesSection.nextSibling },
@@ -1175,6 +1176,14 @@
                 { el: talonario, parent: talonario.parentNode, sibling: talonario.nextSibling },
                 { el: legend, parent: legend.parentNode, sibling: legend.nextSibling }
             ];
+            const originalGridStyles = {
+                gridTemplateColumns: grid.style.gridTemplateColumns,
+                gridTemplateRows: grid.style.gridTemplateRows,
+                gap: grid.style.gap,
+                width: grid.style.width,
+                height: grid.style.height,
+                margin: grid.style.margin
+            };
 
             // --- Create 9:16 Poster ---
             const poster = document.createElement('div');
@@ -1187,56 +1196,37 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: space-between; /* Distribute space */
-                padding: 60px; /* Generous margins */
+                justify-content: space-around; /* Better distribution */
+                padding: 50px; /* Generous margins */
                 box-sizing: border-box;
                 position: absolute;
                 left: -9999px; /* Hide off-screen */
                 top: 0;
             `;
 
-            const infoContainer = document.createElement('div');
-            infoContainer.style.cssText = 'display: flex; flex-direction: column; align-items: center; width: 100%;';
-            
-            const gridContainer = document.createElement('div');
-            gridContainer.style.cssText = `
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                flex-shrink: 0; /* Prevent grid from shrinking */
-            `;
-
-            // Clone and modify grid for a perfect 10x10 layout
-            const clonedTalonario = talonario.cloneNode(true);
-            const grid = clonedTalonario.querySelector('.grid');
+            // Temporarily modify grid for a perfect 10x10 layout
             grid.style.gridTemplateColumns = 'repeat(10, 1fr)';
             grid.style.gridTemplateRows = 'repeat(10, 1fr)';
-            grid.style.gap = '12px';
-            grid.style.width = '900px'; // Fixed width for squareness
-            grid.style.height = '900px'; // Fixed height for squareness
-            grid.style.margin = '0 auto'; // Center it
-            
-            // Adjust ticket styles for the square grid
-            const ticketsInGrid = clonedTalonario.querySelectorAll('.ticket');
+            grid.style.gap = '10px';
+            grid.style.width = '920px'; // Fixed width for squareness
+            grid.style.height = '920px'; // Fixed height for squareness
+            grid.style.margin = '20px auto'; // Add some margin
+
+            const ticketsInGrid = grid.querySelectorAll('.ticket');
             ticketsInGrid.forEach(ticket => {
+                ticket.style.fontSize = '2.2rem'; // Adjust font size for visibility
                 ticket.style.padding = '0';
                 ticket.style.display = 'flex';
                 ticket.style.alignItems = 'center';
                 ticket.style.justifyContent = 'center';
-                ticket.style.fontSize = '2rem';
             });
 
-            // Move elements to the new containers
-            infoContainer.appendChild(header);
-            infoContainer.appendChild(prizesSection);
-            infoContainer.appendChild(explanation);
-            
-            gridContainer.appendChild(clonedTalonario);
-            gridContainer.appendChild(legend);
-
-            poster.appendChild(infoContainer);
-            poster.appendChild(gridContainer);
+            // Move elements into the poster
+            poster.appendChild(header);
+            poster.appendChild(prizesSection);
+            poster.appendChild(explanation);
+            poster.appendChild(talonario);
+            poster.appendChild(legend);
 
             document.body.appendChild(poster);
 
@@ -1250,7 +1240,7 @@
                 logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'poster-rifa-9x16.png';
+                link.download = 'poster-rifa-completo-9x16.png';
                 link.href = canvas.toDataURL('image/png', 0.98);
                 link.click();
             }).catch(err => {
@@ -1265,6 +1255,17 @@
                         parent.appendChild(el);
                     }
                 });
+
+                // Restore original grid styles
+                Object.assign(grid.style, originalGridStyles);
+                ticketsInGrid.forEach(ticket => {
+                    ticket.style.fontSize = '';
+                    ticket.style.padding = '';
+                    ticket.style.display = '';
+                    ticket.style.alignItems = '';
+                    ticket.style.justifyContent = '';
+                });
+
                 poster.remove();
                 downloadBtn.disabled = false;
                 downloadBtn.textContent = 'Descargar Póster';
