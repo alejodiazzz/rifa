@@ -808,74 +808,88 @@
         .poster-capture-mode .prizes, 
         .poster-capture-mode .explanation {
             flex-shrink: 1;
-            max-width: 98%;
+            width: 98%; /* Unified width */
+            max-width: 900px; /* Max width for consistency */
             box-sizing: border-box;
-            overflow: hidden; /* Prevent content spillover */
+            overflow: hidden;
+            margin: 0.5rem auto !important;
         }
         .poster-capture-mode .talonario { flex-shrink: 0; }
 
         .poster-capture-mode header {
             padding: 0.5rem !important;
-            margin: 0 !important;
             border-bottom: none !important;
         }
-        .poster-capture-mode .image-upload-container {
-            margin-bottom: 0.5rem !important;
-        }
         .poster-capture-mode #header-image {
-            display: block !important; /* Ensure it is visible */
-            max-height: 160px !important;
-            border-width: 2px !important;
+            display: block !important;
+            max-height: 150px !important;
         }
         .poster-capture-mode h1 {
-            font-size: 2.5rem !important;
+            font-size: 2.2rem !important;
             margin: 0 !important;
         }
         .poster-capture-mode .price-tag {
-            font-size: 1.4rem !important;
-            padding: 0.4rem 1.2rem !important;
-            margin: 0.5rem 0 !important;
+            font-size: 1.2rem !important;
+            padding: 0.3rem 1rem !important;
+            margin: 0.3rem 0 !important;
         }
 
         .poster-capture-mode .prizes {
             padding: 0.5rem !important;
-            margin: 0.5rem auto !important;
         }
         .poster-capture-mode .prizes h2 {
-            font-size: 1.5rem !important;
-            margin: 0.2rem 0 !important;
+            font-size: 1.4rem !important;
+            margin: 0 0 0.5rem 0 !important;
+        }
+        /* Horizontal prizes */
+        .poster-capture-mode .prizes ul {
+            display: flex !important;
+            justify-content: space-around !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100%;
         }
         .poster-capture-mode .prizes li {
-            font-size: 1rem !important;
-            padding: 0.3rem 0.8rem !important;
-            margin-bottom: 0.3rem !important;
+            font-size: 0.9rem !important;
+            padding: 0.5rem !important;
+            margin: 0 !important;
+            width: 32%; /* Distribute width */
+            text-align: center;
         }
 
         .poster-capture-mode .explanation {
             padding: 0.5rem !important;
-            margin: 0.5rem auto !important;
         }
         .poster-capture-mode .explanation h2 {
-            font-size: 1.5rem !important;
-            margin: 0.2rem 0 !important;
+            font-size: 1.4rem !important;
+            margin: 0 0 0.5rem 0 !important;
         }
         .poster-capture-mode .graphic-container {
+            flex-direction: column;
             margin-top: 0.5rem !important;
-            gap: 1rem !important;
+            gap: 0.5rem !important;
         }
         .poster-capture-mode .lottery-number {
-            font-size: 1.8rem !important;
-            padding: 0.5rem !important;
+            font-size: 1.5rem !important;
+            padding: 0.4rem !important;
+            letter-spacing: 0.5rem;
         }
-        /* Critical fix for spacing */
+        /* Horizontal winners explanation */
+        .poster-capture-mode .winners-explanation {
+            display: flex !important;
+            justify-content: space-around !important;
+            width: 100%;
+        }
         .poster-capture-mode .winners-explanation p {
             margin: 0 !important;
             padding: 0 !important;
         }
         .poster-capture-mode .winner-line {
-            font-size: 0.9rem !important;
-            margin-bottom: 0.2rem !important; /* Drastically reduce space */
-            padding: 0.2rem !important;
+            font-size: 0.8rem !important;
+            margin: 0 !important;
+            padding: 0.4rem !important;
+            width: 32%;
+            text-align: center;
         }
 
         .poster-capture-mode .talonario { padding: 0 !important; }
@@ -884,12 +898,12 @@
             grid-template-columns: repeat(10, 1fr) !important;
             grid-template-rows: repeat(10, 1fr) !important;
             gap: 6px !important;
-            width: 780px !important;
-            height: 780px !important;
+            width: 750px !important;
+            height: 750px !important;
             margin: 0 auto !important;
         }
         .poster-capture-mode .ticket {
-            font-size: 1.4rem !important;
+            font-size: 1.3rem !important;
             border-radius: 6px !important;
         }
         .poster-capture-mode .legend {
