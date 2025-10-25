@@ -1160,30 +1160,32 @@
             downloadBtn.disabled = true;
             downloadBtn.textContent = 'Generando...';
 
-            const captureArea = document.getElementById('capture-area');
-            const header = captureArea.querySelector('header');
-            const prizesSection = captureArea.querySelector('.prizes');
-            const explanation = captureArea.querySelector('.explanation');
-            const talonario = document.getElementById('talonario');
-            const legend = document.querySelector('.legend');
-            const grid = document.getElementById('ticket-grid');
-
-            // Store original parents, siblings, and styles for restoration
-            const elementsToMove = [
-                { el: header, parent: header.parentNode, sibling: header.nextSibling },
-                { el: prizesSection, parent: prizesSection.parentNode, sibling: prizesSection.nextSibling },
-                { el: explanation, parent: explanation.parentNode, sibling: explanation.nextSibling },
-                { el: talonario, parent: talonario.parentNode, sibling: talonario.nextSibling },
-                { el: legend, parent: legend.parentNode, sibling: legend.nextSibling }
-            ];
-            const originalGridStyles = {
-                gridTemplateColumns: grid.style.gridTemplateColumns,
-                gridTemplateRows: grid.style.gridTemplateRows,
-                gap: grid.style.gap,
-                width: grid.style.width,
-                height: grid.style.height,
-                margin: grid.style.margin
+            const elements = {
+                header: document.querySelector('#capture-area header'),
+                prizes: document.querySelector('#capture-area .prizes'),
+                explanation: document.querySelector('#capture-area .explanation'),
+                talonario: document.getElementById('talonario'),
+                legend: document.querySelector('#capture-area .legend'),
+                grid: document.getElementById('ticket-grid'),
+                headerImage: document.getElementById('header-image')
             };
+
+            // Store original states
+            const originalStates = {
+                parents: new Map(),
+                styles: new Map()
+            };
+
+            for (const key in elements) {
+                if (elements[key]) {
+                    originalStates.parents.set(elements[key], { 
+                        parent: elements[key].parentNode, 
+                        sibling: elements[key].nextSibling 
+                    });
+                    originalStates.styles.set(elements[key], elements[key].style.cssText);
+                }
+            }
+            if (elements.grid) originalStates.styles.set(elements.grid, elements.grid.style.cssText);
 
             // --- Create 9:16 Poster ---
             const poster = document.createElement('div');
@@ -1196,45 +1198,56 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: space-around; /* Better distribution */
-                padding: 50px; /* Generous margins */
+                justify-content: space-between; /* Use space-between for better distribution */
+                padding: 40px;
                 box-sizing: border-box;
                 position: absolute;
-                left: -9999px; /* Hide off-screen */
+                left: -9999px;
                 top: 0;
             `;
 
-            // Temporarily modify grid for a perfect 10x10 layout
-            grid.style.gridTemplateColumns = 'repeat(10, 1fr)';
-            grid.style.gridTemplateRows = 'repeat(10, 1fr)';
-            grid.style.gap = '10px';
-            grid.style.width = '920px'; // Fixed width for squareness
-            grid.style.height = '920px'; // Fixed height for squareness
-            grid.style.margin = '20px auto'; // Add some margin
+            // Apply temporary styles for capture
+            const tempStyle = (el, css) => el.style.cssText += css;
 
-            const ticketsInGrid = grid.querySelectorAll('.ticket');
-            ticketsInGrid.forEach(ticket => {
-                ticket.style.fontSize = '2.2rem'; // Adjust font size for visibility
-                ticket.style.padding = '0';
-                ticket.style.display = 'flex';
-                ticket.style.alignItems = 'center';
-                ticket.style.justifyContent = 'center';
-            });
+            tempStyle(elements.header, 'padding: 1.5rem 1rem; max-width: 100%;');
+            tempStyle(elements.header.querySelector('h1'), 'font-size: 3.5rem;');
+            if(elements.headerImage) tempStyle(elements.headerImage, 'max-height: 250px; border-width: 3px;');
+            
+            tempStyle(elements.prizes, 'padding: 1.5rem; margin: 1rem auto; max-width: 95%;');
+            tempStyle(elements.prizes.querySelector('h2'), 'font-size: 2rem; margin-bottom: 1rem;');
+            elements.prizes.querySelectorAll('li').forEach(li => tempStyle(li, 'font-size: 1.3rem; padding: 0.8rem 1.5rem;'));
+
+            tempStyle(elements.explanation, 'padding: 1.5rem; margin: 1rem auto; max-width: 95%;');
+            tempStyle(elements.explanation.querySelector('h2'), 'font-size: 2rem;');
+            tempStyle(elements.explanation.querySelector('.lottery-number'), 'font-size: 3rem; padding: 1rem;');
+
+            tempStyle(elements.talonario, 'padding: 1rem; max-width: 100%;');
+            tempStyle(elements.talonario.querySelector('.stats'), 'margin-bottom: 1.5rem; gap: 1rem;');
+            elements.talonario.querySelectorAll('.stat-card').forEach(sc => tempStyle(sc, 'padding: 1rem; min-width: 150px;'));
+            elements.talonario.querySelectorAll('.stat-card h3').forEach(h3 => tempStyle(h3, 'font-size: 2rem;'));
+
+            tempStyle(elements.grid, `
+                grid-template-columns: repeat(10, 1fr);
+                grid-template-rows: repeat(10, 1fr);
+                gap: 8px;
+                width: 800px; /* Adjusted grid size */
+                height: 800px;
+                margin: 1rem auto;
+            `);
+            elements.grid.querySelectorAll('.ticket').forEach(t => tempStyle(t, 'font-size: 1.8rem; border-radius: 12px; padding: 0; display: flex; align-items: center; justify-content: center;'));
+
+            tempStyle(elements.legend, 'margin-top: 1rem; padding-bottom: 0;');
 
             // Move elements into the poster
-            poster.appendChild(header);
-            poster.appendChild(prizesSection);
-            poster.appendChild(explanation);
-            poster.appendChild(talonario);
-            poster.appendChild(legend);
-
+            Object.values(elements).forEach(el => el && poster.appendChild(el));
+            
             document.body.appendChild(poster);
 
             html2canvas(poster, {
-                scale: 1, // Use native resolution
+                scale: 1,
                 useCORS: true,
                 allowTaint: true,
-                backgroundColor: null, // Use poster's background
+                backgroundColor: null,
                 width: posterWidth,
                 height: posterHeight,
                 logging: false
@@ -1247,24 +1260,16 @@
                 console.error("Error al generar la imagen:", err);
                 alert("Error al generar la imagen. Intenta de nuevo.");
             }).finally(() => {
-                // Restore original DOM
-                elementsToMove.forEach(({ el, parent, sibling }) => {
-                    if (sibling) {
-                        parent.insertBefore(el, sibling);
+                // Restore original DOM and styles
+                originalStates.parents.forEach((state, el) => {
+                    if (state.sibling) {
+                        state.parent.insertBefore(el, state.sibling);
                     } else {
-                        parent.appendChild(el);
+                        state.parent.appendChild(el);
                     }
+                    el.style.cssText = originalStates.styles.get(el) || '';
                 });
-
-                // Restore original grid styles
-                Object.assign(grid.style, originalGridStyles);
-                ticketsInGrid.forEach(ticket => {
-                    ticket.style.fontSize = '';
-                    ticket.style.padding = '';
-                    ticket.style.display = '';
-                    ticket.style.alignItems = '';
-                    ticket.style.justifyContent = '';
-                });
+                if (elements.grid) elements.grid.style.cssText = originalStates.styles.get(elements.grid) || '';
 
                 poster.remove();
                 downloadBtn.disabled = false;
