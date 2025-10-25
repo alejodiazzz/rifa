@@ -799,13 +799,69 @@
                 font-size: 2.2rem;
             }
         }
+        <style>
+        /* Estilos para el modo de captura del póster */
+        .poster-capture-mode header {
+            padding: 1rem !important;
+            margin-bottom: 0 !important;
+        }
+        .poster-capture-mode h1 {
+            font-size: 3rem !important;
+        }
+        .poster-capture-mode #header-image {
+            max-height: 200px !important;
+        }
+        .poster-capture-mode .prizes,
+        .poster-capture-mode .explanation {
+            padding: 1rem !important;
+            margin: 0.5rem auto !important;
+            transform: scale(0.95);
+        }
+        .poster-capture-mode .prizes h2,
+        .poster-capture-mode .explanation h2 {
+            font-size: 1.8rem !important;
+        }
+        .poster-capture-mode .prizes li {
+            font-size: 1.2rem !important;
+        }
+        .poster-capture-mode .lottery-number {
+            font-size: 2.5rem !important;
+            padding: 0.8rem !important;
+        }
+        .poster-capture-mode .talonario {
+            padding: 0.5rem !important;
+        }
+        .poster-capture-mode .stats {
+            display: none !important; /* Ocultar stats para dar espacio a la cuadrícula */
+        }
+        .poster-capture-mode .grid {
+            grid-template-columns: repeat(10, 1fr) !important;
+            grid-template-rows: repeat(10, 1fr) !important;
+            gap: 8px !important;
+            width: 850px !important;
+            height: 850px !important;
+            margin: 1rem auto !important;
+        }
+        .poster-capture-mode .ticket {
+            font-size: 1.6rem !important;
+            border-radius: 10px !important;
+            padding: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        .poster-capture-mode .legend {
+            padding: 1rem 0 0 0 !important;
+            margin: 0 !important;
+            transform: scale(0.9);
+        }
     </style>
 </head>
 <body>
     <div id="capture-area">
         <header>
             <div class="image-upload-container">
-                <img src="WhatsApp Image 2025-10-24 at 18.21.35.jpg" id="header-image" alt="" class="loaded">
+                <img src="WhatsApp Image 2025-10-24 at 18.21.35.jpg" id="header-image" alt="" class="loaded" crossorigin="anonymous">
                 <!-- COLOCA AQUÍ LA RUTA DE TU IMAGEN -->
                 <!-- Ejemplo: <img src="./imagenes/premio.jpg" id="header-image" alt="Premio de la rifa" class="loaded"> -->
                 <!-- Si no tienes imagen, simplemente deja comentada esta línea o elimínala -->
@@ -1160,121 +1216,76 @@
             downloadBtn.disabled = true;
             downloadBtn.textContent = 'Generando...';
 
-            const elements = {
-                header: document.querySelector('#capture-area header'),
-                prizes: document.querySelector('#capture-area .prizes'),
-                explanation: document.querySelector('#capture-area .explanation'),
-                talonario: document.getElementById('talonario'),
-                legend: document.querySelector('#capture-area .legend'),
-                grid: document.getElementById('ticket-grid'),
-                headerImage: document.getElementById('header-image')
-            };
-
-            // Store original states
-            const originalStates = {
-                parents: new Map(),
-                styles: new Map()
-            };
-
-            for (const key in elements) {
-                if (elements[key]) {
-                    originalStates.parents.set(elements[key], { 
-                        parent: elements[key].parentNode, 
-                        sibling: elements[key].nextSibling 
-                    });
-                    originalStates.styles.set(elements[key], elements[key].style.cssText);
-                }
-            }
-            if (elements.grid) originalStates.styles.set(elements.grid, elements.grid.style.cssText);
-
-            // --- Create 9:16 Poster ---
-            const poster = document.createElement('div');
             const posterWidth = 1080;
             const posterHeight = 1920;
+
+            const poster = document.createElement('div');
+            poster.id = 'poster-capture';
             poster.style.cssText = `
                 width: ${posterWidth}px;
                 height: ${posterHeight}px;
                 background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%);
                 display: flex;
                 flex-direction: column;
+                justify-content: space-around; /* Distribute content evenly */
                 align-items: center;
-                justify-content: space-between; /* Use space-between for better distribution */
                 padding: 40px;
                 box-sizing: border-box;
                 position: absolute;
-                left: -9999px;
                 top: 0;
+                left: -9999px;
             `;
 
-            // Apply temporary styles for capture
-            const tempStyle = (el, css) => el.style.cssText += css;
+            const elementsToCapture = {
+                header: document.querySelector('#capture-area header'),
+                prizes: document.querySelector('#capture-area .prizes'),
+                explanation: document.querySelector('#capture-area .explanation'),
+                talonario: document.getElementById('talonario'),
+                legend: document.querySelector('.legend'),
+            };
 
-            tempStyle(elements.header, 'padding: 1.5rem 1rem; max-width: 100%;');
-            tempStyle(elements.header.querySelector('h1'), 'font-size: 3.5rem;');
-            if(elements.headerImage) tempStyle(elements.headerImage, 'max-height: 250px; border-width: 3px;');
-            
-            tempStyle(elements.prizes, 'padding: 1.5rem; margin: 1rem auto; max-width: 95%;');
-            tempStyle(elements.prizes.querySelector('h2'), 'font-size: 2rem; margin-bottom: 1rem;');
-            elements.prizes.querySelectorAll('li').forEach(li => tempStyle(li, 'font-size: 1.3rem; padding: 0.8rem 1.5rem;'));
-
-            tempStyle(elements.explanation, 'padding: 1.5rem; margin: 1rem auto; max-width: 95%;');
-            tempStyle(elements.explanation.querySelector('h2'), 'font-size: 2rem;');
-            tempStyle(elements.explanation.querySelector('.lottery-number'), 'font-size: 3rem; padding: 1rem;');
-
-            tempStyle(elements.talonario, 'padding: 1rem; max-width: 100%;');
-            tempStyle(elements.talonario.querySelector('.stats'), 'margin-bottom: 1.5rem; gap: 1rem;');
-            elements.talonario.querySelectorAll('.stat-card').forEach(sc => tempStyle(sc, 'padding: 1rem; min-width: 150px;'));
-            elements.talonario.querySelectorAll('.stat-card h3').forEach(h3 => tempStyle(h3, 'font-size: 2rem;'));
-
-            tempStyle(elements.grid, `
-                grid-template-columns: repeat(10, 1fr);
-                grid-template-rows: repeat(10, 1fr);
-                gap: 8px;
-                width: 800px; /* Adjusted grid size */
-                height: 800px;
-                margin: 1rem auto;
-            `);
-            elements.grid.querySelectorAll('.ticket').forEach(t => tempStyle(t, 'font-size: 1.8rem; border-radius: 12px; padding: 0; display: flex; align-items: center; justify-content: center;'));
-
-            tempStyle(elements.legend, 'margin-top: 1rem; padding-bottom: 0;');
-
-            // Move elements into the poster
-            Object.values(elements).forEach(el => el && poster.appendChild(el));
-            
-            document.body.appendChild(poster);
-
-            html2canvas(poster, {
-                scale: 1,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: null,
-                width: posterWidth,
-                height: posterHeight,
-                logging: false
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'poster-rifa-completo-9x16.png';
-                link.href = canvas.toDataURL('image/png', 0.98);
-                link.click();
-            }).catch(err => {
-                console.error("Error al generar la imagen:", err);
-                alert("Error al generar la imagen. Intenta de nuevo.");
-            }).finally(() => {
-                // Restore original DOM and styles
-                originalStates.parents.forEach((state, el) => {
-                    if (state.sibling) {
-                        state.parent.insertBefore(el, state.sibling);
-                    } else {
-                        state.parent.appendChild(el);
-                    }
-                    el.style.cssText = originalStates.styles.get(el) || '';
-                });
-                if (elements.grid) elements.grid.style.cssText = originalStates.styles.get(elements.grid) || '';
-
-                poster.remove();
-                downloadBtn.disabled = false;
-                downloadBtn.textContent = 'Descargar Póster';
+            const originalStates = new Map();
+            Object.values(elementsToCapture).forEach(el => {
+                if (el) {
+                    originalStates.set(el, { parent: el.parentNode, sibling: el.nextSibling });
+                    poster.appendChild(el);
+                }
             });
+
+            document.body.appendChild(poster);
+            poster.classList.add('poster-capture-mode');
+
+            // Delay to ensure rendering with new styles
+            setTimeout(() => {
+                html2canvas(poster, {
+                    scale: 2, // High quality
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null,
+                    width: posterWidth,
+                    height: posterHeight,
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'poster-rifa-9x16.png';
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    link.click();
+                }).catch(err => {
+                    console.error("Error generating image:", err);
+                    alert("Hubo un error al generar la imagen. Revisa la consola para más detalles.");
+                }).finally(() => {
+                    // Restore original DOM
+                    originalStates.forEach((state, el) => {
+                        if (state.sibling) {
+                            state.parent.insertBefore(el, state.sibling);
+                        } else {
+                            state.parent.appendChild(el);
+                        }
+                    });
+                    poster.remove();
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent = 'Descargar Póster';
+                });
+            }, 300); // A slightly longer delay to be safe
         }
 
         window.downloadPoster = downloadPoster;
