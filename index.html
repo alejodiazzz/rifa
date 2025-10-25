@@ -1179,9 +1179,9 @@
             const originalLegendParent = legend.parentNode;
             const originalLegendNextSibling = legend.nextSibling;
 
-            // --- CAPTURA DE IMAGEN DE INFORMACIÓN (9:16) ---
+            // --- CAPTURA DE IMAGEN DE INFORMACIÓN (tamaño adaptable) ---
             const infoCaptureArea = document.createElement('div');
-            infoCaptureArea.style.cssText = 'width: 1080px; height: 1920px; overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%); display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 20px; box-sizing: border-box;';
+            infoCaptureArea.style.cssText = 'overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%); display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 20px; box-sizing: border-box;';
             
             // Mover elementos al área de captura de información
             infoCaptureArea.appendChild(header);
@@ -1195,19 +1195,17 @@
                 useCORS: true,
                 allowTaint: true,
                 backgroundColor: '#0a0a0a',
-                logging: false,
-                width: 1080,
-                height: 1920
+                logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'poster-rifa-informacion-9x16.png';
+                link.download = 'poster-rifa-informacion.png';
                 link.href = canvas.toDataURL('image/png', 0.95);
                 link.click();
                 infoCaptureArea.remove(); // Eliminar el área temporal
             }).then(() => {
-                // --- CAPTURA DE IMAGEN DE CUADRÍCULA (9:16) ---
+                // --- CAPTURA DE IMAGEN DE CUADRÍCULA (1080x1080) ---
                 const gridCaptureArea = document.createElement('div');
-                gridCaptureArea.style.cssText = 'width: 1080px; height: 1920px; overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;';
+                gridCaptureArea.style.cssText = 'width: 1080px; height: 1080px; overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f3460 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;';
                 
                 // Mover elementos al área de captura de cuadrícula
                 gridCaptureArea.appendChild(talonario);
@@ -1222,10 +1220,10 @@
                     backgroundColor: '#0a0a0a',
                     logging: false,
                     width: 1080,
-                    height: 1920
+                    height: 1080
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = 'poster-rifa-cuadricula-9x16.png';
+                    link.download = 'poster-rifa-cuadricula-1080x1080.png';
                     link.href = canvas.toDataURL('image/png', 0.95);
                     link.click();
                     gridCaptureArea.remove(); // Eliminar el área temporal
