@@ -1,61 +1,179 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talonario de Rifa - Diseño Profesional</title>
+    <title>Rifa Solidaria – Arte Van Gogh</title>
+    <meta name="description"
+        content="Rifa solidaria de una obra de arte personalizada. Apoya la formación universitaria y gana un lienzo único de 50x60 cm.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;700&family=Caveat:wght@600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div id="capture-area">
         <header>
-            <div class="image-upload-container">
-                <img src="WhatsApp Image 2025-10-24 at 18.21.35.jpg" id="header-image" alt="" class="loaded" crossorigin="anonymous">
-                <!-- COLOCA AQUÍ LA RUTA DE TU IMAGEN -->
-                <!-- Ejemplo: <img src="./imagenes/premio.jpg" id="header-image" alt="Premio de la rifa" class="loaded"> -->
-                <!-- Si no tienes imagen, simplemente deja comentada esta línea o elimínala -->
-                <!-- <img src="TU_RUTA_AQUI.jpg" id="header-image" alt="Premio de la rifa" class="loaded"> -->
-                <!-- FIN DE LA SECCIÓN DE IMAGEN -->
+            <!-- Carrusel de imágenes -->
+            <div class="carousel-container">
+                <div class="carousel-track" id="carousel-track">
+                    <div class="carousel-slide">
+                        <img src="carousel_starry_night.png" alt="Pintura estilo Van Gogh – Noche Estrellada">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="carousel_painting_hands.png" alt="Manos de artista pintando">
+                    </div>
+                    <div class="carousel-slide carousel-slide--canvas">
+                        <div class="canvas-placeholder">
+                            <span>🖼️</span>
+                            <p>El lienzo en blanco<br>que será tuyo…</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn carousel-btn--prev" id="carousel-prev"
+                    aria-label="Anterior">&#10094;</button>
+                <button class="carousel-btn carousel-btn--next" id="carousel-next"
+                    aria-label="Siguiente">&#10095;</button>
+                <div class="carousel-dots" id="carousel-dots">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                </div>
             </div>
-            <h1>Rifa de Lujo</h1>
-            <div class="price-tag">Valor del número: $20.000</div>
-            <p>Sorteo: 01/11/2025</p>
+
+            <h1>🎨 Rifa Solidaria Artística 🎨</h1>
+            <div class="price-tag">Valor del número: $10.000</div>
+            <p>Sorteo: 25 de abril · Lotería de Boyacá</p>
         </header>
 
+        <!-- Sección Premio -->
         <section class="prizes">
-            <h2>¡Grandes Premios Te Esperan!</h2>
-            <ul>
-                <li>🥇 Primer premio: $200.000</li>
-                <li>🥈 Segundo premio: $100.000</li>
-                <li>🥉 Tercer premio: $100.000</li>
-            </ul>
+            <h2>🎁 El Premio Te Espera</h2>
+            <div class="prize-main">
+                <div class="prize-canvas-icon">🖼️</div>
+                <div class="prize-details">
+                    <h3>Un lienzo personalizado de 50 × 60 cm</h3>
+                    <p>La persona ganadora elige qué quiere que se pinte:</p>
+                    <ul>
+                        <li>🧑 Retrato</li>
+                        <li>🐾 Mascota</li>
+                        <li>🌄 Paisaje</li>
+                        <li>⭐ Personaje especial</li>
+                        <li>💡 Idea personalizada</li>
+                    </ul>
+                    <p class="prize-note">Una obra única, creada especialmente para quien gane.</p>
+                </div>
+            </div>
         </section>
 
+        <!-- Sección Cómo se determina el ganador -->
         <section class="explanation">
-            <h2>¿Cómo se Determinan los Ganadores?</h2>
-            <p>Se toman las 4 últimas cifras del premio mayor de la Lotería de Boyacá. De ese número de 4 dígitos, se extraen los 3 números ganadores de la siguiente manera:</p>
+            <h2>¿Cómo se Determina el Ganador?</h2>
+            <p>Se toma la <strong>serie ganadora</strong> del premio mayor de la Lotería de Boyacá. Gana quien tenga los
+                <strong>últimos dos dígitos</strong> de esa serie.
+            </p>
             <div class="graphic-container">
                 <div class="lottery-number">
-                    <span>1</span><span>2</span><span>3</span><span>4</span>
+                    <span>·</span><span>·</span><span class="highlight-digit">3</span><span
+                        class="highlight-digit">2</span>
                 </div>
                 <div class="winners-explanation">
                     <div class="winner-line" id="winner-1">
-                        <p><strong>Primer Premio:</strong> <span class="winner-number gold">34</span> (Dos últimas cifras)</p>
+                        <p><strong>Ganador:</strong> <span class="winner-number gold">32</span> (Dos últimos dígitos de
+                            la serie)</p>
                     </div>
-                    <div class="winner-line" id="winner-2">
-                        <p><strong>Segundo Premio:</strong> <span class="winner-number silver">23</span> (Dos cifras centrales)</p>
+                    <p class="example-note">Ejemplo: Si la serie ganadora termina en <strong>32</strong>, gana quien
+                        tenga el número <strong>32</strong>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Solidaria – Nuevo bloque informativo -->
+        <section class="solidaria-section">
+            <div class="solidaria-header">
+                <h2 class="solidaria-title">✨ ¿Por qué esta rifa? ✨</h2>
+            </div>
+            <div class="solidaria-body">
+                <p class="solidaria-intro">
+                    Estoy realizando esta rifa con un propósito muy especial: <strong>recaudar fondos para una práctica
+                        universitaria</strong> que representa un paso clave en mi formación profesional.
+                </p>
+                <p class="solidaria-intro">
+                    Y quiero hacerlo de la mejor manera que sé hacerlo… <strong>¡pintando! 🖌️</strong>
+                </p>
+
+                <div class="solidaria-cards">
+                    <div class="solidaria-card">
+                        <div class="solidaria-card-icon">📅</div>
+                        <div class="solidaria-card-content">
+                            <h4>Fecha del Sorteo</h4>
+                            <p>25 de abril</p>
+                        </div>
                     </div>
-                    <div class="winner-line" id="winner-3">
-                        <p><strong>Tercer Premio:</strong> <span class="winner-number bronze">12</span> (Dos primeras cifras)</p>
+                    <div class="solidaria-card">
+                        <div class="solidaria-card-icon">🎟️</div>
+                        <div class="solidaria-card-content">
+                            <h4>Juega Con</h4>
+                            <p>Lotería de Boyacá</p>
+                        </div>
+                    </div>
+                    <div class="solidaria-card">
+                        <div class="solidaria-card-icon">🔢</div>
+                        <div class="solidaria-card-content">
+                            <h4>Modalidad</h4>
+                            <p>Últimos dos dígitos de la serie ganadora</p>
+                        </div>
+                    </div>
+                    <div class="solidaria-card">
+                        <div class="solidaria-card-icon">💰</div>
+                        <div class="solidaria-card-content">
+                            <h4>Valor del Número</h4>
+                            <p>$10.000</p>
+                        </div>
                     </div>
                 </div>
+
+                <blockquote class="solidaria-quote">
+                    💛 Más que comprar una rifa, estás apoyando directamente mi proceso universitario y ayudándome a
+                    cumplir una meta académica muy importante. Cada número comprado es un impulso enorme para seguir
+                    creciendo profesionalmente y continuar creando arte para ustedes.
+                </blockquote>
+
+                <!-- Información de Pago -->
+                <div class="pago-section">
+                    <h4 class="pago-title">💳 Información de Pago</h4>
+                    <p class="pago-desc">Puedes realizar tu aporte a través de</p>
+                    <div class="pago-card">
+                        <img src="breb_logo.png" alt="Logo Bre-B" class="breb-logo">
+                        <div class="pago-key">
+                            <span class="pago-key-label">🔑 Mi llave</span>
+                            <span class="pago-key-number">3219038353</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="solidaria-gracias">
+                    <strong>¡Gracias por apoyar el talento y la educación! 🙌🎓</strong>
+                </p>
             </div>
         </section>
 
         <section id="talonario">
+            <!-- Panel de reserva – modo usuario -->
+            <div id="reserva-panel">
+                <div class="reserva-form">
+                    <input type="text" id="usuario-nombre" placeholder="✍️ Tu nombre completo (obligatorio)"
+                        maxlength="60" autocomplete="name">
+                    <div id="seleccion-info" class="seleccion-info">Haz clic en los números azules para seleccionarlos
+                    </div>
+                </div>
+                <button id="btn-reservar" disabled>🎟️ Reservar Números</button>
+            </div>
+
             <div class="stats">
                 <div class="stat-card">
                     <h3 id="stat-available">100</h3>
@@ -70,7 +188,7 @@
                     <p>Vendidos</p>
                 </div>
             </div>
-            
+
             <div class="grid" id="ticket-grid">
                 <!-- Tickets generados por JS -->
             </div>
@@ -78,17 +196,21 @@
 
         <footer class="legend">
             <div class="info-text">
-                <p>Esta rifa juega con la Lotería de Boyacá el 1 de noviembre de 2025.</p>
+                <p>Esta rifa juega con la Lotería de Boyacá el 25 de abril. · Sorteo por últimos dos dígitos de la
+                    serie.</p>
             </div>
-            <span class="disponible" onclick="changeSelectedStatus('disponible')">Disponible</span>
-            <span class="reservado" onclick="changeSelectedStatus('reservado')">Reservado</span>
-            <span class="vendido" onclick="changeSelectedStatus('vendido')">Vendido</span>
+            <span class="disponible">Disponible</span>
+            <span class="reservado">Reservado</span>
+            <span class="vendido">Vendido</span>
+            <!-- Botón secreto de admin -->
+            <button id="admin-trigger" title="" aria-label="admin">🎨</button>
         </footer>
     </div>
 
     <nav>
         <a onclick="showSection('talonario')" class="active">Talonario</a>
         <a onclick="showSection('lista')">Lista de Nombres</a>
+        <span id="admin-badge" class="admin-badge hidden">🔒 Admin · <a onclick="doAdminLogout()">Salir</a></span>
         <button class="download-btn" onclick="downloadPoster()">Descargar Póster</button>
     </nav>
 
@@ -108,21 +230,18 @@
         </table>
     </section>
 
-    <!-- Modal para editar ticket -->
-    <div id="ticketModal" class="modal">
-        <div class="modal-content">
-            <h2>Ticket #<span id="modal-ticket-number"></span></h2>
-            <label for="modal-owner-input">Nombre del participante:</label>
-            <input type="text" id="modal-owner-input" placeholder="Escribe el nombre...">
-            <label for="modal-status-select">Estado:</label>
-            <select id="modal-status-select">
-                <option value="disponible">Disponible</option>
-                <option value="reservado">Reservado</option>
-                <option value="vendido">Vendido</option>
-            </select>
+    <!-- Modal de login de administrador -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content admin-modal-content">
+            <h2>🔐 Acceso Administrativo</h2>
+            <p class="admin-modal-desc">Área restringida – solo para el administrador de la rifa.</p>
+            <label for="admin-user">Usuario</label>
+            <input type="text" id="admin-user" placeholder="Usuario" autocomplete="off">
+            <label for="admin-pass">Contraseña</label>
+            <input type="password" id="admin-pass" placeholder="Contraseña" autocomplete="current-password">
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-                <button class="btn-save" onclick="saveTicket()">Guardar</button>
+                <button class="btn-cancel" onclick="closeAdminModal()">Cancelar</button>
+                <button class="btn-save" onclick="doAdminLogin()">🔓 Entrar</button>
             </div>
         </div>
     </div>
@@ -130,4 +249,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script type="module" src="script.js"></script>
 </body>
+
 </html>
