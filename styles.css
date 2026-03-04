@@ -1433,3 +1433,478 @@ section {
     margin: 0 !important;
     transform: scale(0.8);
 }
+
+/* =========================================
+   PAGO SECTION
+   ========================================= */
+.pago-section {
+    margin: 2rem 0 1.5rem 0;
+    text-align: center;
+}
+
+.pago-title {
+    font-family: var(--font-header);
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 0.4rem 0;
+}
+
+.pago-desc {
+    font-size: 1rem;
+    color: #555;
+    margin: 0 0 1rem 0;
+}
+
+.pago-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.4rem;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(253, 246, 227, 0.8) 100%);
+    border: 2px solid rgba(212, 160, 23, 0.4);
+    border-radius: 20px;
+    padding: 1.2rem 2rem;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+    transition: all 0.35s ease;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pago-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 40px rgba(212, 160, 23, 0.2);
+    border-color: var(--mustard);
+}
+
+.breb-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.pago-key {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+}
+
+.pago-key-label {
+    font-size: 0.85rem;
+    color: #777;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.pago-key-number {
+    font-family: var(--font-header);
+    font-size: 1.9rem;
+    color: var(--mid-blue);
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--mid-blue) 0%, var(--mustard) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* =========================================
+   PANEL DE RESERVA (MODO USUARIO)
+   ========================================= */
+#reserva-panel {
+    background: linear-gradient(135deg, rgba(13, 27, 62, 0.97) 0%, rgba(22, 36, 71, 0.97) 100%);
+    border: 2px solid rgba(212, 160, 23, 0.35);
+    border-radius: 20px;
+    padding: 1.4rem 1.8rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    animation: fadeInDown 0.4s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reserva-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 220px;
+}
+
+#usuario-nombre {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid rgba(212, 160, 23, 0.4);
+    border-radius: 50px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+#usuario-nombre::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+#usuario-nombre:focus {
+    border-color: var(--mustard);
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.15);
+}
+
+.seleccion-info {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.65);
+    padding: 0 0.4rem;
+    min-height: 1.2em;
+}
+
+.seleccion-info strong {
+    color: var(--gold);
+    font-size: 1rem;
+}
+
+.seleccion-info em {
+    color: rgba(255, 255, 255, 0.85);
+    font-style: normal;
+    font-weight: 600;
+}
+
+#btn-reservar {
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.35);
+    transition: all 0.35s ease;
+    white-space: nowrap;
+    min-width: 200px;
+}
+
+#btn-reservar.btn-ready {
+    background: linear-gradient(135deg, var(--mustard) 0%, var(--primary-dark) 100%);
+    color: var(--night-blue);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 28px rgba(212, 160, 23, 0.45);
+    animation: readyPulse 2s ease-in-out infinite;
+}
+
+@keyframes readyPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 8px 28px rgba(212, 160, 23, 0.45);
+    }
+
+    50% {
+        box-shadow: 0 12px 40px rgba(212, 160, 23, 0.7);
+        transform: translateY(-2px);
+    }
+}
+
+#btn-reservar.btn-ready:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(212, 160, 23, 0.65);
+    animation: none;
+}
+
+#btn-reservar:disabled:not(.btn-ready) {
+    cursor: not-allowed;
+}
+
+/* =========================================
+   TICKET – ESTADO SELECCIONADO
+   ========================================= */
+.ticket.seleccionado {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+    transform: translateY(-6px) scale(1.07) !important;
+    box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.35), 0 12px 32px rgba(0, 0, 0, 0.3) !important;
+    animation: selectedGlow 1.5s ease-in-out infinite !important;
+}
+
+@keyframes selectedGlow {
+
+    0%,
+    100% {
+        outline-color: var(--gold);
+        box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.35), 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+        outline-color: #fff;
+        box-shadow: 0 0 0 6px rgba(212, 160, 23, 0.55), 0 14px 40px rgba(0, 0, 0, 0.35);
+    }
+}
+
+/* =========================================
+   TICKET – MODO ADMIN
+   ========================================= */
+.ticket.ticket-admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.6rem 0.3rem;
+    font-size: 1.5rem;
+    position: relative;
+    min-height: 80px;
+    cursor: default;
+}
+
+.ticket.ticket-admin:hover {
+    transform: none !important;
+}
+
+.ticket.ticket-admin:hover .admin-actions {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.ticket-owner-mini {
+    font-size: 0.55rem;
+    font-family: var(--font-body);
+    color: rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(13, 27, 62, 0.75);
+    border-radius: 20px;
+    padding: 2px 4px;
+}
+
+.admin-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px 3px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    line-height: 1;
+}
+
+.admin-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.2);
+}
+
+.ticket.no-click {
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+/* =========================================
+   BOTÓN SECRETO DE ADMIN
+   ========================================= */
+#admin-trigger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    opacity: 0.22;
+    padding: 0.3rem;
+    border-radius: 8px;
+    transition: opacity 0.4s ease;
+    line-height: 1;
+    margin-left: auto;
+}
+
+#admin-trigger:hover {
+    opacity: 0.55;
+}
+
+/* =========================================
+   BADGE ADMIN EN NAV
+   ========================================= */
+.admin-badge {
+    font-family: var(--font-header);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 4px 16px rgba(46, 204, 113, 0.4);
+    animation: badgePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 16px rgba(46, 204, 113, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 6px 24px rgba(46, 204, 113, 0.7);
+    }
+}
+
+.admin-badge a {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.78rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    transition: color 0.2s ease;
+}
+
+.admin-badge a:hover {
+    color: white;
+}
+
+/* =========================================
+   MODAL DE LOGIN DE ADMINISTRADOR
+   ========================================= */
+.admin-modal-content {
+    text-align: center;
+    border: 2px solid rgba(30, 77, 140, 0.3) !important;
+}
+
+.admin-modal-content h2 {
+    background: linear-gradient(135deg, var(--mid-blue) 0%, var(--mustard) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-size: 1.7rem;
+}
+
+.admin-modal-desc {
+    font-size: 0.9rem;
+    color: #888;
+    margin: 0 0 1.2rem 0;
+}
+
+.admin-modal-content label {
+    display: block;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--text-dark);
+}
+
+/* =========================================
+   ANIMACIÓN SHAKE (ERROR DE LOGIN / NOMBRE VACÍO)
+   ========================================= */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    15% {
+        transform: translateX(-8px);
+    }
+
+    30% {
+        transform: translateX(8px);
+    }
+
+    45% {
+        transform: translateX(-6px);
+    }
+
+    60% {
+        transform: translateX(6px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    90% {
+        transform: translateX(3px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s ease !important;
+}
+
+/* =========================================
+   MODO ADMIN – OCULTAR PANEL DE RESERVA
+   ========================================= */
+body.admin-mode #reserva-panel {
+    display: none !important;
+}
+
+/* =========================================
+   RESPONSIVE – NUEVOS ELEMENTOS
+   ========================================= */
+@media (max-width: 768px) {
+    #reserva-panel {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        padding: 1.2rem;
+    }
+
+    #btn-reservar {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .admin-actions {
+        opacity: 1;
+        pointer-events: all;
+        position: static;
+        transform: none;
+        background: rgba(0, 0, 0, 0.3);
+        margin-top: 2px;
+    }
+
+    .ticket.ticket-admin {
+        min-height: 70px;
+    }
+
+    #usuario-nombre {
+        font-size: 0.9rem;
+    }
+}
