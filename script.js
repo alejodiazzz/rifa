@@ -531,3 +531,29 @@ window.liberarNumero = liberarNumero;
 window.editarNombre = editarNombre;
 window.adminReservarManual = adminReservarManual;
 window.changeSelectedStatus = function () { };   // legacy stub
+
+// =============================================
+// FUNCIÓN PARA COPIAR LLAVE DE PAGO
+// =============================================
+function copyKey() {
+    const keyText = document.getElementById('pago-key-number').innerText;
+    navigator.clipboard.writeText(keyText).then(() => {
+        const card = document.querySelector('.pago-card');
+        const label = document.querySelector('.pago-key-label');
+        const originalLabel = label.innerText;
+        
+        // Feedback visual
+        card.classList.add('copied');
+        label.innerText = '✅ ¡Copiado!';
+        label.style.color = '#27ae60';
+
+        setTimeout(() => {
+            card.classList.remove('copied');
+            label.innerText = originalLabel;
+            label.style.color = '';
+        }, 2000);
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+    });
+}
+window.copyKey = copyKey;

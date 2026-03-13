@@ -1908,3 +1908,19 @@ body.admin-mode #reserva-panel {
         font-size: 0.9rem;
     }
 }
+
+/* =========================================
+   CLICK-TO-COPY STYLES
+   ========================================= */
+.pago-card {
+    cursor: pointer;
+}
+
+.pago-card:active {
+    transform: scale(0.98);
+}
+
+.pago-card.copied {
+    background: rgba(46, 204, 113, 0.15) !important;
+    border-color: #27ae60 !important;
+}
